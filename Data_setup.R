@@ -95,7 +95,32 @@ eco_melt <- melt(ecoregions_df, id.vars = "class")
 plot(eco_melt$class, eco_melt$value)
 
 
-
+## Change NA values in initial communities back to 0
+int_communities_90m[is.na(int_communities_90m)] <- 0
+int_communities_270m[is.na(int_communities_270m)] <- 0
+int_communities_810m[is.na(int_communities_810m)] <- 0
 
 ## Decided to use majority rule based on original resolution data (e.g. method 1 which was assumed to be the preferred method from the start)
-writeRaster(ecoregions_90m, )
+writeRaster(x = ecoregions_90m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/ecoregions90m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+writeRaster(x = ecoregions_270m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/ecoregions270m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+writeRaster(x = ecoregions_810m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/ecoregions810m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+writeRaster(x = int_communities_90m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/initialcommunities90m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+writeRaster(x = int_communities_270m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/initialcommunities270m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+writeRaster(x = int_communities_810m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/initialcommunities810m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+
+## Set up initial infections to match new resolutions
+init_infections <- raster("C:\\Users\\Chris\\Desktop\\chrisjonesLandis\\LANDIS_II_small\\BigSur_EDA\\SOD_positive_1996_UINT8.img")
+init_infections[init_infections == 0] <- NA
+
+init_infections_90m <- aggregate(init_infections, fact = 3, fun = modal, na.rm = TRUE) 
+init_infections_270m <- aggregate (init_infections, fact = 9, fun =modal, na.rm = TRUE)
+init_infections_810m <- aggregate (init_infections, fact = 27, fun =modal, na.rm = TRUE)
+
+init_infections_90m[is.na(init_infections_90m)]<- 0
+init_infections_270m[is.na(init_infections_270m)]<- 0
+init_infections_810m[is.na(init_infections_810m)]<- 0
+
+writeRaster(x = init_infections_90m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/initialinfections90m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+writeRaster(x = init_infections_270m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/initialinfections270m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+writeRaster(x = init_infections_810m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/initialinfections810m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+
