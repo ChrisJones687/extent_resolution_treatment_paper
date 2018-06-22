@@ -235,3 +235,110 @@ for (i in 1:length(x)) {
   writeRaster(x = init_infections_270, filename = paste(output_dir2,'init_infections_270.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
   writeRaster(x = init_infections_810, filename = paste(output_dir2,'init_infections_810.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
 }
+
+## Create random samples of 1/8th the extent of the study area
+nrow_30 <- round(nrow(ecoregions)/8)
+nrow_90 <- round(nrow(ecoregions_90m)/8)
+nrow_270 <- round(nrow(ecoregions_270m)/8)
+nrow_810 <- round(nrow(ecoregions_810m)/8)
+
+ncols_30 <- ncol(ecoregions)
+ncols_90 <- ncol(ecoregions_90m)
+ncols_270 <- ncol(ecoregions_270m)
+ncols_810 <- ncol(ecoregions_810m)
+
+x_30 <- round(runif(10, 1, nrow_h_30))
+x_90 <- round(runif(10, 1, nrow_h_90))
+x_270 <- round(runif(10, 1, nrow_h_270))
+x_810 <- round(runif(10, 1, nrow_h_810))
+
+output_dir <- "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/eighth"
+dir.create(output_dir)
+
+for (i in 1:length(x)) {
+  output_dir2 <- paste(output_dir,'/',i,sep = '')
+  dir.create(output_dir2)
+  ecoregions_30 <- crop(ecoregions, extent(ecoregions, x_30[i], x_30[i]+nrow_30, 1, ncols_30))
+  ecoregions_90 <- crop(ecoregions_90m, extent(ecoregions_90m, x_90[i], x_90[i]+nrow_90, 1, ncols_90))
+  ecoregions_270 <- crop(ecoregions_270m, extent(ecoregions_270m, x_270[i], x_270[i]+nrow_270, 1, ncols_270))
+  ecoregions_810 <- crop(ecoregions_810m, extent(ecoregions_810m, x_810[i], x_810[i]+nrow_810, 1, ncols_810))
+  
+  init_comm_30 <- crop(initial_communities, extent(initial_communities, x_30[i], x_30[i]+nrow_30, 1, ncols_30))
+  init_comm_90 <- crop(int_communities_90m, extent(int_communities_90m, x_90[i], x_90[i]+nrow_90, 1, ncols_90))
+  init_comm_270 <- crop(int_communities_270m, extent(int_communities_270m, x_270[i], x_270[i]+nrow_270, 1, ncols_270))
+  init_comm_810 <- crop(int_communities_810m, extent(int_communities_810m, x_810[i], x_810[i]+nrow_810, 1, ncols_810))
+  
+  init_infections_30 <- crop(init_infections, extent(init_infections, x_30[i], x_30[i]+nrow_30, 1, ncols_30))
+  init_infections_90 <- crop(init_infections_90m, extent(init_infections_90m, x_90[i], x_90[i]+nrow_90, 1, ncols_90))
+  init_infections_270 <- crop(init_infections_270m, extent(init_infections_270m, x_270[i], x_270[i]+nrow_270, 1, ncols_270))
+  init_infections_810 <- crop(init_infections_810m, extent(init_infections_810m, x_810[i], x_810[i]+nrow_810, 1, ncols_810))
+  
+  writeRaster(x = ecoregions_30, filename = paste(output_dir2,'ecoregions_30.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  writeRaster(x = ecoregions_90, filename = paste(output_dir2,'ecoregions_90.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  writeRaster(x = ecoregions_270, filename = paste(output_dir2,'ecoregions_270.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  writeRaster(x = ecoregions_810, filename = paste(output_dir2,'ecoregions_810.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  
+  writeRaster(x = init_comm_30, filename = paste(output_dir2,'init_comm_30.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  writeRaster(x = init_comm_90, filename = paste(output_dir2,'init_comm_90.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  writeRaster(x = init_comm_270, filename = paste(output_dir2,'init_comm_270.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  writeRaster(x = init_comm_810, filename = paste(output_dir2,'init_comm_810.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  
+  writeRaster(x = init_infections_30, filename = paste(output_dir2,'init_infections_30.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+  writeRaster(x = init_infections_90, filename = paste(output_dir2,'init_infections_90.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+  writeRaster(x = init_infections_270, filename = paste(output_dir2,'init_infections_270.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+  writeRaster(x = init_infections_810, filename = paste(output_dir2,'init_infections_810.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+}
+
+
+## Create random samples of 1/16th the extent of the study area
+nrow_30 <- round(nrow(ecoregions)/16)
+nrow_90 <- round(nrow(ecoregions_90m)/16)
+nrow_270 <- round(nrow(ecoregions_270m)/16)
+nrow_810 <- round(nrow(ecoregions_810m)/16)
+
+ncols_30 <- ncol(ecoregions)
+ncols_90 <- ncol(ecoregions_90m)
+ncols_270 <- ncol(ecoregions_270m)
+ncols_810 <- ncol(ecoregions_810m)
+
+x_30 <- round(runif(10, 1, nrow_h_30))
+x_90 <- round(runif(10, 1, nrow_h_90))
+x_270 <- round(runif(10, 1, nrow_h_270))
+x_810 <- round(runif(10, 1, nrow_h_810))
+
+output_dir <- "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/sixtenth"
+dir.create(output_dir)
+
+for (i in 1:length(x)) {
+  output_dir2 <- paste(output_dir,'/',i,sep = '')
+  dir.create(output_dir2)
+  ecoregions_30 <- crop(ecoregions, extent(ecoregions, x_30[i], x_30[i]+nrow_30, 1, ncols_30))
+  ecoregions_90 <- crop(ecoregions_90m, extent(ecoregions_90m, x_90[i], x_90[i]+nrow_90, 1, ncols_90))
+  ecoregions_270 <- crop(ecoregions_270m, extent(ecoregions_270m, x_270[i], x_270[i]+nrow_270, 1, ncols_270))
+  ecoregions_810 <- crop(ecoregions_810m, extent(ecoregions_810m, x_810[i], x_810[i]+nrow_810, 1, ncols_810))
+  
+  init_comm_30 <- crop(initial_communities, extent(initial_communities, x_30[i], x_30[i]+nrow_30, 1, ncols_30))
+  init_comm_90 <- crop(int_communities_90m, extent(int_communities_90m, x_90[i], x_90[i]+nrow_90, 1, ncols_90))
+  init_comm_270 <- crop(int_communities_270m, extent(int_communities_270m, x_270[i], x_270[i]+nrow_270, 1, ncols_270))
+  init_comm_810 <- crop(int_communities_810m, extent(int_communities_810m, x_810[i], x_810[i]+nrow_810, 1, ncols_810))
+  
+  init_infections_30 <- crop(init_infections, extent(init_infections, x_30[i], x_30[i]+nrow_30, 1, ncols_30))
+  init_infections_90 <- crop(init_infections_90m, extent(init_infections_90m, x_90[i], x_90[i]+nrow_90, 1, ncols_90))
+  init_infections_270 <- crop(init_infections_270m, extent(init_infections_270m, x_270[i], x_270[i]+nrow_270, 1, ncols_270))
+  init_infections_810 <- crop(init_infections_810m, extent(init_infections_810m, x_810[i], x_810[i]+nrow_810, 1, ncols_810))
+  
+  writeRaster(x = ecoregions_30, filename = paste(output_dir2,'ecoregions_30.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  writeRaster(x = ecoregions_90, filename = paste(output_dir2,'ecoregions_90.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  writeRaster(x = ecoregions_270, filename = paste(output_dir2,'ecoregions_270.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  writeRaster(x = ecoregions_810, filename = paste(output_dir2,'ecoregions_810.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  
+  writeRaster(x = init_comm_30, filename = paste(output_dir2,'init_comm_30.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  writeRaster(x = init_comm_90, filename = paste(output_dir2,'init_comm_90.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  writeRaster(x = init_comm_270, filename = paste(output_dir2,'init_comm_270.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  writeRaster(x = init_comm_810, filename = paste(output_dir2,'init_comm_810.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+  
+  writeRaster(x = init_infections_30, filename = paste(output_dir2,'init_infections_30.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+  writeRaster(x = init_infections_90, filename = paste(output_dir2,'init_infections_90.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+  writeRaster(x = init_infections_270, filename = paste(output_dir2,'init_infections_270.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+  writeRaster(x = init_infections_810, filename = paste(output_dir2,'init_infections_810.tif',sep = '/'), overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+}
