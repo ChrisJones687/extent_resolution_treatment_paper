@@ -109,8 +109,13 @@ writeRaster(x = int_communities_270m, filename = "C:/Users/Chris/Desktop/landis_
 writeRaster(x = int_communities_810m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/initialcommunities810m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
 
 ## Set up initial infections to match new resolutions
-init_infections <- raster("C:\\Users\\Chris\\Desktop\\chrisjonesLandis\\LANDIS_II_small\\BigSur_EDA\\SOD_positive_1996_UINT8.img")
+# init_infections <- raster("C:\\Users\\Chris\\Desktop\\chrisjonesLandis\\LANDIS_II_small\\BigSur_EDA\\SOD_positive_1996_UINT8.img")
+init_infect <- raster("G:/FinalModelRunsFixed/sod/5405/eda/ramorum-10.img")
+init_infections = raster(ext=initial_communities@extent, resolution=res(initial_communities),crs=projection(initial_communities))
+init_infections[] = getValues(init_infect)
 init_infections[init_infections == 0] <- NA
+init_infections[init_infections > 0 & init_infections < 3] <- 0
+init_infections[init_infections == 3] <- 1
 
 init_infections_90m <- aggregate(init_infections, fact = 3, fun = modal, na.rm = TRUE) 
 init_infections_270m <- aggregate (init_infections, fact = 9, fun =modal, na.rm = TRUE)
