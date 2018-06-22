@@ -194,10 +194,10 @@ ncols_90 <- ncol(ecoregions_90m)
 ncols_270 <- ncol(ecoregions_270m)
 ncols_810 <- ncol(ecoregions_810m)
 
-x_30 <- round(runif(10, 1, nrow_h_30))
-x_90 <- round(runif(10, 1, nrow_h_90))
-x_270 <- round(runif(10, 1, nrow_h_270))
-x_810 <- round(runif(10, 1, nrow_h_810))
+x_30 <- round(runif(10, 1, nrow(ecoregions) - nrow_30))
+x_90 <- round(runif(10, 1, nrow(ecoregions_90m) - nrow_90))
+x_270 <- round(runif(10, 1, nrow(ecoregions_270m) - nrow_270))
+x_810 <- round(runif(10, 1, nrow(ecoregions_810m) - nrow_810))
 
 output_dir <- "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/quarter"
 dir.create(output_dir)
@@ -247,10 +247,10 @@ ncols_90 <- ncol(ecoregions_90m)
 ncols_270 <- ncol(ecoregions_270m)
 ncols_810 <- ncol(ecoregions_810m)
 
-x_30 <- round(runif(10, 1, nrow_h_30))
-x_90 <- round(runif(10, 1, nrow_h_90))
-x_270 <- round(runif(10, 1, nrow_h_270))
-x_810 <- round(runif(10, 1, nrow_h_810))
+x_30 <- round(runif(10, 1, nrow(ecoregions) - nrow_30))
+x_90 <- round(runif(10, 1, nrow(ecoregions_90m) - nrow_90))
+x_270 <- round(runif(10, 1, nrow(ecoregions_270m) - nrow_270))
+x_810 <- round(runif(10, 1, nrow(ecoregions_810m) - nrow_810))
 
 output_dir <- "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/eighth"
 dir.create(output_dir)
@@ -301,10 +301,10 @@ ncols_90 <- ncol(ecoregions_90m)
 ncols_270 <- ncol(ecoregions_270m)
 ncols_810 <- ncol(ecoregions_810m)
 
-x_30 <- round(runif(10, 1, nrow_h_30))
-x_90 <- round(runif(10, 1, nrow_h_90))
-x_270 <- round(runif(10, 1, nrow_h_270))
-x_810 <- round(runif(10, 1, nrow_h_810))
+x_30 <- round(runif(10, 1, nrow(ecoregions) - nrow_30))
+x_90 <- round(runif(10, 1, nrow(ecoregions_90m) - nrow_90))
+x_270 <- round(runif(10, 1, nrow(ecoregions_270m) - nrow_270))
+x_810 <- round(runif(10, 1, nrow(ecoregions_810m) - nrow_810))
 
 output_dir <- "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/sixtenth"
 dir.create(output_dir)
