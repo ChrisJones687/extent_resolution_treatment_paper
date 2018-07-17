@@ -3,8 +3,8 @@ library(raster)
 library(rgdal)
 
 ## read in initial data (initial communities data comes from LEMMA GNN) (ecoregions data comes from LANDFIRE biophysical communities).
-initial_communities <- raster("C:\\Users\\Chris\\Desktop\\chrisjonesLandis\\LANDIS_II_small\\BigSur_EDA\\initialcommunitiesmap.img")
-ecoregions <- raster("C:\\Users\\Chris\\Desktop\\chrisjonesLandis\\LANDIS_II_small\\BigSur_EDA\\ecoregionsmap.img")
+initial_communities <- raster("C:\\Users\\Chris\\Desktop\\Landis_stuff_from_desktop\\chrisjonesLandis\\LANDIS_II_small\\BigSur_EDA\\initialcommunitiesmap.img")
+ecoregions <- raster("C:\\Users\\Chris\\Desktop\\Landis_stuff_from_desktop\\chrisjonesLandis\\LANDIS_II_small\\BigSur_EDA\\ecoregionsmap.img")
 
 ## Set 0s to NA in order to not have masked areas on the map affect the resolution change.
 initial_communities[initial_communities==0] <- NA
@@ -101,12 +101,42 @@ int_communities_270m[is.na(int_communities_270m)] <- 0
 int_communities_810m[is.na(int_communities_810m)] <- 0
 
 ## Decided to use majority rule based on original resolution data (e.g. method 1 which was assumed to be the preferred method from the start)
-writeRaster(x = ecoregions_90m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/ecoregions90m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
-writeRaster(x = ecoregions_270m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/ecoregions270m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
-writeRaster(x = ecoregions_810m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/ecoregions810m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
-writeRaster(x = int_communities_90m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/initialcommunities90m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
-writeRaster(x = int_communities_270m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/initialcommunities270m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
-writeRaster(x = int_communities_810m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/initialcommunities810m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+## Start Here for all future scenarios
+## read in libraries for raster and spatial data
+library(raster)
+library(rgdal)
+
+## read in initial data (initial communities data comes from LEMMA GNN) (ecoregions data comes from LANDFIRE biophysical communities).
+initial_communities <- raster("C:\\Users\\Chris\\Desktop\\Landis_stuff_from_desktop\\chrisjonesLandis\\LANDIS_II_small\\BigSur_EDA\\initialcommunitiesmap.img")
+ecoregions <- raster("C:\\Users\\Chris\\Desktop\\Landis_stuff_from_desktop\\chrisjonesLandis\\LANDIS_II_small\\BigSur_EDA\\ecoregionsmap.img")
+
+## Set 0s to NA in order to not have masked areas on the map affect the resolution change.
+initial_communities[initial_communities==0] <- NA
+
+## Use 2 methods for moving from 30m data to 90 m, 270 m, and 810 m 
+## All from original resolution method using majority rules method
+int_communities_90m <- aggregate(initial_communities, fact = 3, fun = modal, na.rm = TRUE) 
+int_communities_270m <- aggregate (initial_communities, fact = 9, fun =modal, na.rm = TRUE)
+int_communities_810m <- aggregate (initial_communities, fact = 27, fun =modal, na.rm = TRUE)
+
+ecoregions_90m <- aggregate(ecoregions, fact = 3, fun = modal, na.rm = TRUE) 
+ecoregions_270m <- aggregate (ecoregions, fact = 9, fun =modal, na.rm = TRUE)
+ecoregions_810m <- aggregate (ecoregions, fact = 27, fun =modal, na.rm = TRUE)
+
+writeRaster(x = ecoregions, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/full/ecoregions_30.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+writeRaster(x = ecoregions_90m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/full/ecoregions_90.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+writeRaster(x = ecoregions_270m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/full/ecoregions_270.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+writeRaster(x = ecoregions_810m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/full/ecoregions_810.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+
+initial_communities[is.na(initial_communities)]<- 0
+int_communities_90m[is.na(int_communities_90m)]<- 0
+int_communities_270m[is.na(int_communities_270m)]<- 0
+int_communities_810m[is.na(int_communities_810m)]<- 0
+
+writeRaster(x = initial_communities, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/full/init_comm_30.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+writeRaster(x = int_communities_90m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/full/init_comm_90.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+writeRaster(x = int_communities_270m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/full/init_comm_270.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
+writeRaster(x = int_communities_810m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/full/init_comm_810.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT4S")
 
 ## Set up initial infections to match new resolutions
 # init_infections <- raster("C:\\Users\\Chris\\Desktop\\chrisjonesLandis\\LANDIS_II_small\\BigSur_EDA\\SOD_positive_1996_UINT8.img")
@@ -126,9 +156,10 @@ init_infections_90m[is.na(init_infections_90m)]<- 0
 init_infections_270m[is.na(init_infections_270m)]<- 0
 init_infections_810m[is.na(init_infections_810m)]<- 0
 
-writeRaster(x = init_infections_90m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/initialinfections90m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
-writeRaster(x = init_infections_270m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/initialinfections270m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
-writeRaster(x = init_infections_810m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/initialinfections810m.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+writeRaster(x = init_infections, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/full/init_infections_30.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+writeRaster(x = init_infections_90m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/full/init_infections_90.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+writeRaster(x = init_infections_270m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/full/init_infections_270.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
+writeRaster(x = init_infections_810m, filename = "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/full/init_infections_810.tif", overwrite=TRUE, format = 'GTiff', datatype = "INT1U")
 
 ## Create random samples of half the extent of the study area
 nrow_h_30 <- round(nrow(ecoregions)/2)
@@ -149,7 +180,7 @@ x_810 <- round(runif(10, 1, nrow_h_810))
 output_dir <- "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/half"
 dir.create(output_dir)
 
-for (i in 1:length(x)) {
+for (i in 1:length(x_30)) {
   output_dir2 <- paste(output_dir,'/',i,sep = '')
   dir.create(output_dir2)
   ecoregions_30 <- crop(ecoregions, extent(ecoregions, x_30[i], x_30[i]+nrow_h_30, 1, ncols_30))
@@ -202,7 +233,7 @@ x_810 <- round(runif(10, 1, nrow(ecoregions_810m) - nrow_810))
 output_dir <- "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/quarter"
 dir.create(output_dir)
 
-for (i in 1:length(x)) {
+for (i in 1:length(x_30)) {
   output_dir2 <- paste(output_dir,'/',i,sep = '')
   dir.create(output_dir2)
   ecoregions_30 <- crop(ecoregions, extent(ecoregions, x_30[i], x_30[i]+nrow_30, 1, ncols_30))
@@ -255,7 +286,7 @@ x_810 <- round(runif(10, 1, nrow(ecoregions_810m) - nrow_810))
 output_dir <- "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/eighth"
 dir.create(output_dir)
 
-for (i in 1:length(x)) {
+for (i in 1:length(x_30)) {
   output_dir2 <- paste(output_dir,'/',i,sep = '')
   dir.create(output_dir2)
   ecoregions_30 <- crop(ecoregions, extent(ecoregions, x_30[i], x_30[i]+nrow_30, 1, ncols_30))
@@ -309,7 +340,7 @@ x_810 <- round(runif(10, 1, nrow(ecoregions_810m) - nrow_810))
 output_dir <- "C:/Users/Chris/Desktop/landis_eda_res_ext_paper_data/sixtenth"
 dir.create(output_dir)
 
-for (i in 1:length(x)) {
+for (i in 1:length(x_30)) {
   output_dir2 <- paste(output_dir,'/',i,sep = '')
   dir.create(output_dir2)
   ecoregions_30 <- crop(ecoregions, extent(ecoregions, x_30[i], x_30[i]+nrow_30, 1, ncols_30))
