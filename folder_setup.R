@@ -21,7 +21,7 @@ for(ext in 1:length(dir_extent_list)){
   }
 }
 
-dir_extent_list <- c("half", "quarter", "eigth", "sixtenth")
+dir_extent_list <- c("half", "quarter", "eighth", "sixtenth")
 dir_resolution_list <- c("30", "90", "270", "810")
 dir_runs_list <- seq(1,10,1)
 ## move ecoregions, initial infections and initial communities files to new folders
