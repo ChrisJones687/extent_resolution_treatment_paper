@@ -2,7 +2,7 @@
 setwd("C:/Users/Chris/Desktop")
 new_dir <- "landis_extent_resolution_runs"
 dir.create(new_dir)
-dir_extent_list <- c("full", "half", "quarter", "eigth", "sixtenth")
+dir_extent_list <- c("full", "half", "quarter", "eighth", "sixtenth")
 dir_resolution_list <- c("30m", "90m", "270m", "810m")
 dir_runs_list <- seq(1,10,1)
 
