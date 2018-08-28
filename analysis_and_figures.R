@@ -120,8 +120,90 @@ plot = plot+ggtitle(title)
 plot = plot + theme(axis.text=element_text(size=10),axis.title=element_text(size=16,vjust=0.35),legend.text=element_text(size=12),plot.title=element_text(size=22))
 plot = plot + scale_x_continuous(name="Date", breaks=seq(2000,2100,20))
 plot = plot + scale_y_continuous(name=expression("Diseased area (m^2"))
-
 plot = plot +geom_ribbon(data = eda_mean_quarter, aes(ymin=min_diseased_area, ymax=max_diseased_area, fill = factor(resolution), color = factor(resolution)), alpha=0.3)
-
 #plot= plot+theme(legend.position="none")
 plot
+
+## Comparing ecoregions across the different resolutions
+ecoregion_30 = raster("D:/landis_extent_resolution_runs/full/bigsur_eda_30m_1/ecoregions_30.tif")
+ecoregion_90 = raster("D:/landis_extent_resolution_runs/full/bigsur_eda_90m_1/ecoregions_90.tif")
+ecoregion_270 = raster("D:/landis_extent_resolution_runs/full/bigsur_eda_270m_1/ecoregions_270.tif")
+ecoregion_810 = raster("D:/landis_extent_resolution_runs/full/bigsur_eda_810m_1/ecoregions_810.tif")
+
+ecoregion_30m <- freq(ecoregion_30)
+ecoregion_90m <- freq(ecoregion_90)
+ecoregion_270m <- freq(ecoregion_270)
+ecoregion_810m <- freq(ecoregion_810)
+
+ecoregions_df <- data.frame(class = ecoregion_30m[2:nrow(ecoregion_30m),1], precent_30m = round(ecoregion_30m[2:nrow(ecoregion_30m),2]/sum(ecoregion_30m[2:nrow(ecoregion_30m),2])*100, 2))
+ecoregions_df$precent_90m = round(ecoregion_90m[2:nrow(ecoregion_90m),2]/sum(ecoregion_90m[2:nrow(ecoregion_90m),2])*100, 2)
+ecoregions_df$precent_270m = 0
+ecoregions_df$precent_270m[ecoregions_df$class %in% ecoregion_270m[,1]] = round(ecoregion_270m[2:nrow(ecoregion_270m),2]/sum(ecoregion_270m[2:nrow(ecoregion_270m),2])*100, 2)
+ecoregions_df$precent_810m = 0
+ecoregions_df$precent_810m[ecoregions_df$class %in% ecoregion_810m[,1]] = round(ecoregion_810m[2:nrow(ecoregion_810m),2]/sum(ecoregion_810m[2:nrow(ecoregion_810m),2])*100, 2)
+
+#add plot
+
+## comparing initial communities across different resolutions
+initial_communities_30 = raster("D:/landis_extent_resolution_runs/full/bigsur_eda_30m_1/init_comm_30.tif")
+initial_communities_90 = raster("D:/landis_extent_resolution_runs/full/bigsur_eda_90m_1/init_comm_90.tif")
+initial_communities_270 = raster("D:/landis_extent_resolution_runs/full/bigsur_eda_270m_1/init_comm_270.tif")
+initial_communities_810 = raster("D:/landis_extent_resolution_runs/full/bigsur_eda_810m_1/init_comm_810.tif")
+
+initial_communities_30m <- freq(initial_communities_30)
+initial_communities_90m <- freq(initial_communities_90)
+initial_communities_270m <- freq(initial_communities_270)
+initial_communities_810m <- freq(initial_communities_810)
+
+initial_communitiess_df <- data.frame(class = initial_communities_30m[3:nrow(initial_communities_30m),1], precent_30m = round((initial_communities_30m[3:nrow(initial_communities_30m),2]/sum(initial_communities_30m[3:nrow(initial_communities_30m),2]))*100, 2))
+initial_communitiess_df$precent_90m = 0
+initial_communitiess_df$precent_90m[initial_communitiess_df$class %in% initial_communities_90m[,1]] = round(initial_communities_90m[3:nrow(initial_communities_90m),2]/sum(initial_communities_90m[3:nrow(initial_communities_90m),2])*100, 2)
+initial_communitiess_df$precent_270m = 0
+initial_communitiess_df$precent_270m[initial_communitiess_df$class %in% initial_communities_270m[,1]] = round(initial_communities_270m[3:nrow(initial_communities_270m),2]/sum(initial_communities_270m[3:nrow(initial_communities_270m),2])*100, 2)
+initial_communitiess_df$precent_810m = 0
+initial_communitiess_df$precent_810m[initial_communitiess_df$class %in% initial_communities_810m[,1]] = round(initial_communities_810m[3:nrow(initial_communities_810m),2]/sum(initial_communities_810m[3:nrow(initial_communities_810m),2])*100, 2)
+initial_communitiess_df <- initial_communitiess_df[initial_communitiess_df$precent_30m > 0.05,]
+
+## comparing species composition across different resolutions at the full extent.
+species_composition_30 <- read.csv("D:/landis_extent_resolution_runs/full/bigsur_eda_30m_1/spp-biomass-log.csv")
+species_composition_90 <- read.csv("D:/landis_extent_resolution_runs/full/bigsur_eda_90m_1/spp-biomass-log.csv")
+species_composition_270 <- read.csv("D:/landis_extent_resolution_runs/full/bigsur_eda_270m_1/spp-biomass-log.csv")
+species_composition_810 <- read.csv("D:/landis_extent_resolution_runs/full/bigsur_eda_810m_2/spp-biomass-log.csv")
+
+species_composition_30[is.na(species_composition_30)] <- 0
+species_composition_90[is.na(species_composition_90)] <- 0
+species_composition_270[is.na(species_composition_270)] <- 0
+species_composition_810[is.na(species_composition_810)] <- 0
+
+species_composition_30 <- species_composition_30[ , c(1,3:33)]
+species_composition_90 <- species_composition_90[ , c(1,3:33)]
+species_composition_270 <- species_composition_270[ , c(1,3:33)]
+species_composition_810 <- species_composition_810[ , c(1,3:33)]
+
+species_composition_30m <- setDT(species_composition_30)[,lapply(.SD,sum), by = Time]
+species_composition_90m <- setDT(species_composition_90)[,lapply(.SD,sum), by = Time]
+species_composition_270m <- setDT(species_composition_270)[,lapply(.SD,sum), by = Time]
+species_composition_810m <- setDT(species_composition_810)[,lapply(.SD,sum), by = Time]
+
+species_composition_30m$resolution <- 30                                 
+species_composition_90m$resolution <- 90
+species_composition_270m$resolution <- 270
+species_composition_810m$resolution <- 810
+
+species_composition <- rbind(species_composition_30m, species_composition_90m, species_composition_270m, species_composition_810m)
+for (i in 1:nrow(species_composition)) {
+  species_composition[i,4:31] <- species_composition[i,4:31]/sum(species_composition[i,4:31])*100
+}
+
+title = "Species Composition over time"
+theme = theme_set(theme_minimal())
+theme = theme_update(legend.position="top", legend.title=element_blank())
+theme = theme_update(axis.text = element_text(colour="black"), axis.ticks=element_blank(), plot.title = element_text(hjust = 0.5), axis.line = element_line())
+plot = ggplot(species_composition, aes(Time, SppBiomass_Queragri, color=factor(resolution)))+geom_line(aes(color = factor(resolution)))
+#plot = plot+scale_color_manual(values=c("#CC0000","#7BAFD4", "#CD660D"))+scale_fill_manual(values=c("#CC0000","#7BAFD4", "#CD660D"))
+plot = plot+ggtitle(title)
+plot = plot + theme(axis.text=element_text(size=10),axis.title=element_text(size=16,vjust=0.35),legend.text=element_text(size=12),plot.title=element_text(size=22))
+plot = plot + scale_x_continuous(name="Date", breaks=seq(2000,2100,20))
+plot = plot + scale_y_continuous(name=expression("Diseased area (m^2"))
+plot
+
